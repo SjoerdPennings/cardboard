@@ -75,12 +75,13 @@
     $apacheV = substr($str, strlen($prefix));
     $apacheV = rtrim($apacheV, ' (Ubuntu)');
   }
-   
-  
+    
+    
 
-  function getMySQLVersion() {
+  function getMySQLVersion()
+  {
     $output = shell_exec('mysql -V');
-    preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version); 
+    preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version);
     return $version[0];
   }
   
@@ -95,7 +96,7 @@
           <i class="devicon-php-plain colored"></i>PHP <?php echo phpversion(); ?> &nbsp; 
           <i class="devicon-mysql-plain colored"></i>MySQL <?php echo getMySQLVersion(); ?> &nbsp;
           <i class="devicon-apache-plain colored"></i>Apache <?php echo $apacheV; ?> &nbsp; 
-          <i class="devicon-nodejs-plain colored"></i>Node <?php echo ltrim(shell_exec("node -v"),'v'); ?></span><br>
+          <i class="devicon-nodejs-plain colored"></i>Node <?php echo ltrim(shell_exec("node -v"), 'v'); ?></span><br>
       </div>
     </div> 
   </body>
