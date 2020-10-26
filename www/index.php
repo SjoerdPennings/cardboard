@@ -60,17 +60,42 @@
 
   </style>
 
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@master/devicon.min.css">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@master/devicon.min.css">
 
 
-</head>
+  </head>
+
+<?php
+  
+  $prefix = 'Apache/';
+  $str = apache_get_version();
+  
+  if (0 === strpos($str, $prefix)) {
+    $apacheV = substr($str, strlen($prefix));
+    $apacheV = rtrim($apacheV, ' (Ubuntu)');
+  }
+   
+  
+
+  function getMySQLVersion() {
+    $output = shell_exec('mysql -V');
+    preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version); 
+    return $version[0];
+  }
+  
+?>
 
   <body>
     <div class="container"> 
       <div class="content">
         <h1>&gt;dev.box<span class="blinkr">_</span></h1>
-        <span class="icons"><i class="devicon-ubuntu-plain colored"></i>Ubuntu 20.04 &nbsp; <i class="devicon-php-plain colored"></i>PHP 7.4 &nbsp; <i class="devicon-mysql-plain colored"></i>MySQL 8.0.21 &nbsp; <i class="devicon-apache-plain colored"></i>Apache 2.4.41 &nbsp; <i class="devicon-nodejs-plain colored"></i>Node 15.0.1</span><br>
+        <span class="icons">
+          <i class="devicon-ubuntu-plain colored"></i>Ubuntu <?php echo parse_ini_string(shell_exec('cat /etc/lsb-release'))['DISTRIB_RELEASE']; ?> &nbsp;
+          <i class="devicon-php-plain colored"></i>PHP <?php echo phpversion(); ?> &nbsp; 
+          <i class="devicon-mysql-plain colored"></i>MySQL <?php echo getMySQLVersion(); ?> &nbsp;
+          <i class="devicon-apache-plain colored"></i>Apache <?php echo $apacheV; ?> &nbsp; 
+          <i class="devicon-nodejs-plain colored"></i>Node <?php echo ltrim(shell_exec("node -v"),'v'); ?></span><br>
       </div>
     </div> 
   </body>
