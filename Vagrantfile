@@ -87,10 +87,12 @@ Vagrant.configure("2") do |config|
         sudo /usr/sbin/update-motd >/dev/null 2>&1
 
         echo "├─Installing oh-my-zsh...                                 (12/13)─┤"
-        su vagrant -c 'sh -c "$(wget -O- --quiet https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)">/dev/null 2>&1' 
-        cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+        su vagrant -c 'sh -c "$(wget -O- --quiet https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)">/dev/null 2>&1'
+        rm -rf /home/vagrant/.oh-my-zsh/custom
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-/home/vagrant/.oh-my-zsh/custom}/themes/powerlevel10k >/dev/null 2>&1
+        cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
         sudo chsh -s /bin/zsh vagrant
-        sed -i 's/ZSH_THEME=[^ ]*/ZSH_THEME="agnoster"/g' /home/vagrant/.zshrc
+        sed -i 's#ZSH_THEME=[^ ]*#ZSH_THEME="powerlevel10k/powerlevel10k"#g' /home/vagrant/.zshrc
 
 
         echo "├─Running custom provision script...                      (13/13)─┤"
