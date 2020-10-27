@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
     config.vagrant.plugins = "vagrant-hostmanager"
     config.vm.box = "ubuntu/focal64"
-    config.vm.hostname = "dev.box"
+    config.vm.hostname = "cardboard.box"
     config.vm.network "forwarded_port", guest: 80, host: 8008
     config.vm.network "forwarded_port", guest: 3306, host: 3306
     config.vm.network "forwarded_port", guest: 22, host: 2202
@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     config.hostmanager.ignore_private_ip = false
     config.hostmanager.include_offline = true
     config.vm.provider "virtualbox" do |vb|
-        vb.name = "devbox"
+        vb.name = "cardboard"
         vb.memory = "1024"
         vb.cpus = 2
     end
@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
         clear
         export DEBIAN_FRONTEND=noninteractive 
         echo "┌─────────────────────────────────────────────────────────────────┐"
-        echo "│                       Provisioning dev.box                      │"
+        echo "│                   Provisioning cardboard box                    │"
         echo "├─────────────────────────────────────────────────────────────────┤"
         echo "├─Updating Ubuntu...                                      (01/13)─┤"
         apt-get update >/dev/null 2>&1 && apt-get upgrade >/dev/null 2>&1
@@ -93,7 +93,9 @@ Vagrant.configure("2") do |config|
         cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
         sudo chsh -s /bin/zsh vagrant
         sed -i 's#ZSH_THEME=[^ ]*#ZSH_THEME="powerlevel10k/powerlevel10k"#g' /home/vagrant/.zshrc
-
+        git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-/home/vagrant/.oh-my-zsh/custom}/plugins/zsh-autosuggestions >/dev/null 2>&1
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-/home/vagrant/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting >/dev/null 2>&1
+        sed -i 's#plugins=\(git\)#plugins=\(git zsh-autosuggestions zsh-syntax-highlighting\)#g' /home/vagrant/.zshrc
 
         echo "├─Running custom provision script...                      (13/13)─┤"
 
@@ -105,7 +107,7 @@ Vagrant.configure("2") do |config|
         echo "├─────────────────────────────────────────────────────────────────┤"
         echo "│                            All done!                            │"
         echo "├─────────────────────────────────────────────────────────────────┤"
-        echo "├─Head to dev.box to view your website!                           │"
+        echo "├─Head to cardboard.box to view your website!                     │"
         echo "│                                                                 │"
         echo "├─Put your website in www/ on the host to sync it to /var/www     │"
         echo "├─Put your dotfiles in dotfiles/ on the host to sync it to ~      │"
