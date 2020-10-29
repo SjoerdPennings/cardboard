@@ -96,12 +96,12 @@ Vagrant.configure("2") do |config|
         git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-/home/vagrant/.oh-my-zsh/custom}/plugins/zsh-autosuggestions >/dev/null 2>&1
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-/home/vagrant/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting >/dev/null 2>&1
         git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-/home/vagrant/.oh-my-zsh/custom}/plugins/zsh-completions >/dev/null 2>&1
-        sed -i 's/^plugins=(\(.*\)/plugins=(zsh-autosuggestions zsh-completions zsh-syntax-highlighting \1/' /home/vagrant/.zshrc
+        sed -i 's#plugins=(git)#plugins=(zsh-autosuggestions zsh-completions zsh-syntax-highlighting git)#g' /home/vagrant/.zshrc
         autoload -U compinit >/dev/null 2>&1 && compinit >/dev/null 2>&1
         echo "├─Running custom provision script...                      (13/13)─┤"
 
-        #Insert custom provisions here
-
+        #Custom provisions are run from custom.sh
+        sh /vagrant/custom.sh >/dev/null 2>&1
 
         
 
