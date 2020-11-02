@@ -90,7 +90,7 @@
   <body>
     <div class="container"> 
       <div class="content">
-        <h1>&gt;cardboard<span class="blinkr">_</span></h1>
+        <h1>📦&nbsp;cardboard<span class="blinkr">_</span></h1>
         <span class="icons">
           <i class="devicon-ubuntu-plain colored"></i>Ubuntu <?php echo parse_ini_string(shell_exec('cat /etc/lsb-release'))['DISTRIB_RELEASE']; ?> &nbsp;
           <i class="devicon-php-plain colored"></i>PHP <?php echo phpversion(); ?> &nbsp; 
