@@ -5,7 +5,7 @@ My personal vagrant dev box.
 ## What's in the box?
 
 - Ubuntu 20.04 LTS
-- PHP 7.3
+- PHP 8.0
 - MySQL
 - Apache
 - NodeJS 15

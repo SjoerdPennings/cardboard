@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-    config.vagrant.plugins = "vagrant-hostmanager"
+    config.vagrant.plugins = "vagrant-hostsupdater"
     config.vm.box = "ubuntu/focal64"
     config.vm.hostname = "cardboard.box"
     config.vm.network "forwarded_port", guest: 80, host: 8008
@@ -10,10 +10,6 @@ Vagrant.configure("2") do |config|
     config.vm.network "forwarded_port", guest: 22, host: 2202
     config.vm.network "private_network", ip: "192.168.33.10"
     config.vm.synced_folder "www/", "/var/www/html"
-    config.hostmanager.enabled = true
-    config.hostmanager.manage_host = true
-    config.hostmanager.ignore_private_ip = false
-    config.hostmanager.include_offline = true
     config.vm.provider "virtualbox" do |vb|
         vb.name = "cardboard"
         vb.memory = "1024"
@@ -32,7 +28,7 @@ Vagrant.configure("2") do |config|
         apt-get update >/dev/null 2>&1 && apt-get upgrade >/dev/null 2>&1
 
         echo "├─Installing base tools...                                (02/13)─┤"
-        apt-get install -y vim make curl git neofetch zsh update-motd htop build-essential unzip >/dev/null 2>&1
+        apt-get install -y software-properties-common vim make curl git neofetch zsh update-motd htop build-essential unzip >/dev/null 2>&1
 
         echo "├─Installing node and npm...                              (03/13)─┤"
         curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash - >/dev/null 2>&1
@@ -43,7 +39,9 @@ Vagrant.configure("2") do |config|
         echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
         echo "├─Installing PHP...                                       (05/13)─┤"
-        apt-get install -y php php-cli php-fpm php-json php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath >/dev/null2>&1
+        add-apt-repository -y ppa:ondrej/php >/dev/null 2>&1
+        apt-get update >/dev/null 2>&1
+        apt-get install -y php8.0 libapache2-mod-php8.0 php-pear php8.0-cli php8.0-fpm php8.0-common php8.0-mysql php8.0-zip php8.0-gd php8.0-mbstring php8.0-curl php8.0-xml php8.0-bcmath >/dev/null2>&1
 
         echo "├─Installing MySQL...                                     (06/13)─┤"
         debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
